@@ -27,21 +27,35 @@ const kittyPrompts = {
 
     // Return an array of just the names of kitties who are orange e.g.
     // ['Tiger', 'Snickers']
-    const result = 'REPLACE WITH YOUR RESULT HERE';
-    return result;
+    const result = kitties
+      .filter((kitty) => {
+        return kitty.color === 'orange'
+      }).map((element) => {
+        return element.name
+      })
+    return result
 
     // Annotation:
-    // Write your annotation here as a comment
+    // We first need to make sure we're only finding orange kitties, so filter()
+    // helps us to weed out the cats of other colors. Then, we need to pluck
+    // out the names from the objects in that filtered array. For this, we use
+    // .map(), which lets us get a new array with only a certain value out of
+    // each object.
   },
 
   sortByAge() {
     // Sort the kitties by their age
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = kitties.sort(function(a, b) {
+      return a.age - b.age}).reverse();
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // The sort() method lets us sort a list of objects by comparing properties
+    // of those objects (though I admit the syntax was hard for me to get a
+    // handle on). It looks like the test wants us to sort them in *descending*
+    // order, though, so we'll have to tack on .reverse() at the end to get it
+    // in the order the test likes.
   },
 
   growUp() {
