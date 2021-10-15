@@ -112,10 +112,18 @@ const clubPrompts = {
     //   ...etc
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
-    return result;
+    const result = clubs.reduce((clubObj, element) => {
+          element.members.forEach((member) => {
+            if (!clubObj[member]){
+              clubObj[member] = [];}
+            clubObj[member].push(element.club);
+          });
+          return clubObj;
+        }, {})
+        return result;
 
     // Annotation:
+    //
     // Write your annotation here as a comment
   }
 };
