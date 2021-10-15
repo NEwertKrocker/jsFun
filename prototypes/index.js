@@ -72,8 +72,16 @@ const kittyPrompts = {
     // },
     // ...etc]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = kitties.map((kitty) => {
+      kitty.age += 2;
+      return kitty;
+    });
     return result;
+
+    // Annotation:
+    // All we need to do in this case is alter one property in each kitty
+    // object, so .map() is our best option. Grant each kitty two additional
+    // years, please!
   }
 };
 
