@@ -123,8 +123,14 @@ const clubPrompts = {
         return result;
 
     // Annotation:
-    //
-    // Write your annotation here as a comment
+    // We're going to use reduce() in this case, because we need to end up with
+    // a newly-constructed object, and reduce is the method that allows us
+    // control over which data type we get returned. We iterate through each
+    // element in the original array and check to see if a property with that
+    // name already exists on the accumulator (which I've called clubObj in
+    // this case). If it's already there, the club gets pushed to the array.
+    // If not, the property is first created as an empty array -- and then
+    // the club gets pushed to it.
   }
 };
 
@@ -156,11 +162,23 @@ const modPrompts = {
     //   { mod: 4, studentsPerInstructor: 8 }
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = mods.map((element) => {
+      element.mod = element.mod;
+      element.studentsPerInstructor = (element.students / element.instructors)
+      delete element.students;
+      delete element.instructors;
+      return element
+    });
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Because the array we want as a result is structurally similar to the
+    // original array we're given, we can probably rely on .map() to do most of
+    // our work here. (You could probably also do this with .reduce(), but
+    // .map() seems cleaner.) All we need to do is make a simple calculation to
+    // generate a new property in our objects, but we'll also need to delete
+    // two of our existing object properties if we want our returned array to
+    // match what our test expects. 
   }
 };
 

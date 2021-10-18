@@ -48,7 +48,7 @@ describe("PROTOTYPES", () => {
       }])
     });
 
-    it.skip("growUp", () => {
+    it("growUp", () => {
       const e = kittyPrompts.growUp();
 
       expect(e).to.deep.equal([{
@@ -72,7 +72,7 @@ describe("PROTOTYPES", () => {
   });
 
   describe("Club Prompts", () => {
-    it.skip("membersBelongingToClubs", () => {
+    it("membersBelongingToClubs", () => {
       const e = clubPrompts.membersBelongingToClubs({
         Louisa: ["Drama", "Art"],
         Pam: ["Drama", "Chess", "Newspaper"],
@@ -102,7 +102,7 @@ describe("PROTOTYPES", () => {
   });
 
   describe("Mod Prompts", () => {
-    it.skip("studentsPerMod", () => {
+    it("studentsPerMod", () => {
       const e = modPrompts.studentsPerMod();
 
       expect(e).to.deep.equal([{
