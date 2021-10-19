@@ -261,11 +261,14 @@ const cakePrompts = {
     // Return the total amount of cakes in stock e.g.
     // 59
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cakes.reduce((total, cake) => {
+      return total + cake.inStock;
+    }, 0)
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // This is probably the simplest and most straightforward use of reduce() --
+    // rolling up numbers into a total sum.
   },
 
   allToppings() {
@@ -273,11 +276,23 @@ const cakePrompts = {
     // every cake in the dataset e.g.
     // ['dutch process cocoa', 'toasted sugar', 'smoked sea salt', 'berries', ..etc]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cakes.reduce((toppingsList, cake) => {
+      cake.toppings.forEach((topping) => {
+        if (!toppingsList.includes(topping)){
+          toppingsList.push(topping)
+        }
+      })
+      return toppingsList
+    }, []);
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Here's another one where we're going to want to use reduce(), because
+    // we're going to need to iterate through arrays which are values of
+    // objects and then snatch individual elements to push to the array we
+    // ultimately want to construct to pass our test. First, though, we need to
+    // check that those elements don't already exist in the array, which we
+    // can do with a simple if/includes conditional.
   },
 
   groceryList() {
