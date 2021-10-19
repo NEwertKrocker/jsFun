@@ -220,7 +220,10 @@ const cakePrompts = {
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Again, what we're looking for here is a structurally similar version of
+    // original array, so .map() is our best bet. We need to change the name
+    // of the flavor key, as well as deleting all the unnecessary properties
+    // we no longer want in our newly-returned array.
   },
 
   onlyInStock() {
@@ -244,11 +247,14 @@ const cakePrompts = {
     // ..etc
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cakes.filter((cake) => {
+      return cake.inStock > 0;
+    });
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // This one is very straightforward! All we need to do is filter the array
+    // so that we remove all the cakes that have 0 cakes in stock.
   },
 
   totalInventory() {
