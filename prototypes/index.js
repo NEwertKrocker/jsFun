@@ -178,7 +178,7 @@ const modPrompts = {
     // .map() seems cleaner.) All we need to do is make a simple calculation to
     // generate a new property in our objects, but we'll also need to delete
     // two of our existing object properties if we want our returned array to
-    // match what our test expects. 
+    // match what our test expects.
   }
 };
 
@@ -209,7 +209,14 @@ const cakePrompts = {
     //    ..etc
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cakes.map((cake) => {
+      cake.flavor = cake.cakeFlavor;
+      delete cake.cakeFlavor;
+      delete cake.filling;
+      delete cake.frosting;
+      delete cake.toppings;
+      return cake;
+    });
     return result;
 
     // Annotation:
