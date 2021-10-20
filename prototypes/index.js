@@ -390,17 +390,22 @@ const classPrompts = {
     // and beCapacity properties are initiated (if they don't already exist),
     // then we simply add another conditional statement to figure out which
     // program a given classroom belongs to and therefore which property we want
-    // to increment. 
+    // to increment.
   },
 
   sortByCapacity() {
     // Return the array of classrooms sorted by their capacity (least capacity to greatest)
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = classrooms.sort(function(a, b) {
+      return a.capacity - b.capacity});
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // This one is very similar to kitties.sortByAge() from above, except we
+    // can take away the .reverse() we had at the end of that function. .sort()
+    // lets us sort by a given property by doing some simple math, so all we
+    // need to do is access the .capacity property of each classroom object
+    // and voila! Sorted array.
   }
 };
 
