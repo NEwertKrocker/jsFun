@@ -323,7 +323,7 @@ const cakePrompts = {
     // everything up into an object this time instead of an array. Like our
     // clubPrompts problem from before, we'll first need to check and see if
     // our accumulator object already has a property named after the target
-    // topping before incrementing that topping by 1. 
+    // topping before incrementing that topping by 1.
   }
 };
 
@@ -354,11 +354,12 @@ const classPrompts = {
     //   { roomLetter: 'G', program: 'FE', capacity: 29 }
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
-    return result;
+    const result = classrooms.filter((classroom) => classroom.program === "FE");
+        return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Another relatively simple filter() problem. We want the elements in the
+    // array which have a .program value of "FE".
   },
 
   totalCapacities() {
@@ -369,11 +370,27 @@ const classPrompts = {
     //   beCapacity: 96
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = classrooms.reduce((capacities, classroom) => {
+      if(capacities.feCapacity === undefined && capacities.beCapacity === undefined){
+        capacities.feCapacity = 0;
+        capacities.beCapacity = 0;
+      }
+      if (classroom.program === "FE") {
+        capacities.feCapacity += classroom.capacity
+      } else if (classroom.program === "BE") {
+        capacities.beCapacity += classroom.capacity
+      }
+        return capacities
+    }, {})
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Because we're seeking an object here and not an array, we're going to
+    // need to use .reduce(). First, we need to make sure that the feCapacity
+    // and beCapacity properties are initiated (if they don't already exist),
+    // then we simply add another conditional statement to figure out which
+    // program a given classroom belongs to and therefore which property we want
+    // to increment. 
   },
 
   sortByCapacity() {
