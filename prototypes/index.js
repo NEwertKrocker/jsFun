@@ -306,11 +306,24 @@ const cakePrompts = {
     //    ...etc
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cakes.reduce((toppingsList, cake) => {
+      cake.toppings.forEach((topping) => {
+        if (!toppingsList[topping]){
+          toppingsList[topping] = 1
+        } else {
+          toppingsList[topping] += 1;
+        }
+      })
+      return toppingsList
+    }, {});
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Similar to the above test, we're going to use .reduce() here, rolling
+    // everything up into an object this time instead of an array. Like our
+    // clubPrompts problem from before, we'll first need to check and see if
+    // our accumulator object already has a property named after the target
+    // topping before incrementing that topping by 1. 
   }
 };
 
