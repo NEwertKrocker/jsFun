@@ -428,11 +428,21 @@ const bookPrompts = {
     //   'Catch-22', 'Treasure Island']
 
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
-    return result;
+    const result = books.reduce((niceBooks, book) => {
+            if(book.genre === 'Horror'){
+            } else if (book.genre === 'True Crime'){
+            } else {
+              niceBooks.push(book.title)
+            } return niceBooks
+        }, [])
+        return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // This is something of an inelegant solution, but I couldn't get the
+    // if/else statements to fire properly using the bang operator and logical
+    // operators inside of the .reduce() method. The only solution I could find
+    // was to have two empty blocks for the two genres of books I wanted to
+    // remove, and then push the rest of the titles into my accumulator array.
 
   },
   getNewBooks() {
