@@ -453,11 +453,23 @@ const bookPrompts = {
     //  { title: 'Life of Pi', year: 2001 },
     //  { title: 'The Curious Incident of the Dog in the Night-Time', year: 2003 }]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const newBooks = books.filter((book) => book.published > 1989)
+
+    const result = newBooks.map((book) => {
+        delete book.author;
+        delete book.genre;
+        book.year = book.published;
+        delete book.published
+        return book
+    })
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // We're going to need two different iterator methods in order to do this:
+    // First, we'll filter out all the old books using .filter(). Then, we'll
+    // take the resulting array and run a .map() on it to make it fit what our
+    // test expects, which is an array of objects with fewer properties each
+    // (and one property which is just renamed).
   }
 
 };
@@ -476,11 +488,15 @@ const weatherPrompts = {
     // return an array of all the average temperatures. Eg:
     // [ 40, 40, 44.5, 43.5, 57, 35, 65.5, 62, 14, 46.5 ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = weather.map((weatherData) => {
+      return (weatherData.temperature.high + weatherData.temperature.low) / 2
+    })
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // We just want to pull two data points out of each weather object in
+    // the initial array and do a little quick math to 'em, so map() best
+    // suits our purposes here.
   },
 
   findSunnySpots() {
@@ -490,11 +506,21 @@ const weatherPrompts = {
     // 'New Orleans, Louisiana is sunny.',
     // 'Raleigh, North Carolina is mostly sunny.' ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
-    return result;
+    const sunnyWeather = weather.filter((weatherData) => {
+      return weatherData.type === 'sunny' || weatherData.type === 'mostly sunny'
+    }) ;
+
+    const result = sunnyWeather.map(weatherData => {
+      return `${weatherData.location} is ${weatherData.type}.`
+    })
+
+    return result
 
     // Annotation:
-    // Write your annotation here as a comment
+    // This works pretty simply as a two-step problem: first, get an array
+    // that only includes sunny weather objects -- which we can do with a
+    // .filter(), and then use either .map() or .reduce() to return an array
+    // of strings.
   },
 
   findHighestHumidity() {
@@ -506,11 +532,16 @@ const weatherPrompts = {
     //   temperature: { high: 49, low: 38 }
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
-    return result;
+    const result = weather.sort((a, b) => {
+      return (b.humidity - a.humidity)
+    })
+    return result[0];
 
     // Annotation:
-    // Write your annotation here as a comment
+    // You'd think that this would be a simple .find() problem, but YOU'D BE
+    // WRONG! Turns out it's hard to find superlatives using .find()! My
+    // solution is to .sort() from most to least humid and then return the very
+    // first object in the array. 
 
   }
 };
