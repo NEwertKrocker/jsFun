@@ -541,7 +541,7 @@ const weatherPrompts = {
     // You'd think that this would be a simple .find() problem, but YOU'D BE
     // WRONG! Turns out it's hard to find superlatives using .find()! My
     // solution is to .sort() from most to least humid and then return the very
-    // first object in the array. 
+    // first object in the array.
 
   }
 };
@@ -564,11 +564,24 @@ const nationalParksPrompts = {
     //   parksVisited: ["Rocky Mountain", "Acadia", "Zion"]
     //}
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = nationalParks.reduce((parkItinerary, park) => {
+      if(park.visited){
+        parkItinerary.parksVisited.push(park.name)
+      } else if(!park.visited){
+        parkItinerary.parksToVisit.push(park.name)
+      }
+      return parkItinerary
+    }, {parksToVisit: [], parksVisited: []});
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Because we want to return an object and not an array, .reduce() is our
+    // best bet here. I went ahead and put the properties we wanted in the
+    // initialization of the accumulator, because in this case I think it's
+    // unlikely that we're going to need a third property in our function down
+    // the line (because we're tracking a boolean). Then, we use a simple
+    // conditional statement to sort which array on our accumulator we want to
+    // push our park.name to.
   },
 
   getParkInEachState() {
@@ -581,11 +594,16 @@ const nationalParksPrompts = {
     // { Florida: 'Everglades' } ]
 
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = nationalParks.map((park) => {
+      return {[park.location]: park.name}
+    });
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Because we're looking for an array which is structurally similar to our
+    // original dataset, .map() is what we're looking for here. For each element
+    // in the array, we want a new object with one property -- so
+    // {[park.location]: park.name} is all we need for each iteration.
   },
 
   getParkActivities() {
@@ -604,11 +622,23 @@ const nationalParksPrompts = {
     //   'backpacking',
     //   'rock climbing' ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = nationalParks.reduce((activities, park) => {
+      park.activities.forEach((activity) => {
+        if(!activities.includes(activity)){
+          activities.push(activity)
+        }
+      })
+      return activities
+    }, []);
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Reduce() is so versatile that once you get comfortable with it, it's
+    // tempting to use it even when it might not be strictly necessary! In
+    // this case, having an empty array to accumulate into is an easy way to
+    // get where we want to go. Because we have to iterate through an array
+    // within an object, we'll want forEach() to grab those. Then, a quick
+    // if statement to weed out duplicates will be necessary. 
   }
 };
 
