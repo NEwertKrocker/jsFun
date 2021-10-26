@@ -638,7 +638,7 @@ const nationalParksPrompts = {
     // this case, having an empty array to accumulate into is an easy way to
     // get where we want to go. Because we have to iterate through an array
     // within an object, we'll want forEach() to grab those. Then, a quick
-    // if statement to weed out duplicates will be necessary. 
+    // if statement to weed out duplicates will be necessary.
   }
 };
 
@@ -661,11 +661,16 @@ const breweryPrompts = {
     // Return the total beer count of all beers for every brewery e.g.
     // 40
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = breweries.reduce((totalBeers, brewery) => {
+      totalBeers += brewery.beers.length;
+      return totalBeers
+    }, 0)
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // In this solution, we use reduce() to iterate through the array of
+    // breweries and add the length of each beer array to the total count of
+    // beers in our accumulator.
   },
 
   getBreweryBeerCount() {
@@ -677,11 +682,16 @@ const breweryPrompts = {
     // ...etc.
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = breweries.map((brewery) => {
+      return {name: brewery.name, beerCount: brewery.beers.length}
+    })
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // In this case, we're going to use .map() to create a new object for
+    // each brewery we iterate through, only this new object is only going to
+    // have two properties: the name of the brewery and the length of their
+    // beer list.
   },
 
   findHighestAbvBeer() {
@@ -689,11 +699,26 @@ const breweryPrompts = {
     // e.g.
     // { name: 'Barrel Aged Nature\'s Sweater', type: 'Barley Wine', abv: 10.9, ibu: 40 }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
-    return result;
+    const beerList = breweries.reduce((allBeers, brewery) => {
+      brewery.beers.forEach((beer) => {
+        allBeers.push(beer)
+      })
+      return allBeers
+    }, [])
+
+    const heaviestBeer = beerList.sort((a, b) => {
+      return b.abv - a.abv
+    })
+
+    return heaviestBeer[0];
 
     // Annotation:
-    // Write your annotation here as a comment
+    // This one's sort of a two-parter. A good first step seems to be pulling
+    // the beers out of the brewery objects and storing them in their own
+    // array, which we can do with a combination of .reduce() and .forEach().
+    // Then, we'll want to sort that array by ABV in descending order -- once
+    // we've done that, it's as simple as pulling the first element out of that
+    // array to return. Voila! The heaviest, most delicious beer.
   }
 };
 
@@ -737,11 +762,19 @@ const turingPrompts = {
     //  { name: 'Robbie', studentCount: 18 }
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = instructors.map((instructor) => {
+      let numStudents = cohorts.find((cohort) => cohort.module === instructor.module)
+      return {name: instructor.name, studentCount: numStudents.studentCount}
+    });
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // This one is a little tricky. Creating new objects for each instructor is
+    // as simple as using .map(), but we need to get a little more complicated
+    // to pull the studentCount out of objects in the other array. In this case,
+    // we use .find() to link up with the appropriate mod and declare a new
+    // variable, `numStudents`, so we can easily pass on that property to our
+    // .map() method.
   },
 
   studentsPerInstructor() {
@@ -751,11 +784,23 @@ const turingPrompts = {
     // cohort1804: 10.5
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cohorts.reduce((rollCall, cohort) => {
+      let students = cohort.studentCount;
+      let cohortName = `cohort${cohort.cohort}`
+      let modInstructors = instructors.filter((instructor) => instructor.module === cohort.module)
+      rollCall[cohortName] = (students/modInstructors.length)
+      return rollCall
+    }, {});
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Phew! This one's a little complicated, syntactically. The two important
+    // pieces of data that we need are the number of students per mod (easily
+    // accessible via cohort.studentCount) and the number of instructors per
+    // mod, which is slightly trickier: the best way to get it, I think, is to
+    // filter the instructors array so it only displays instructors for a
+    // given mod, then take the length of that filtered array. Then, we wrap
+    // it all in a .reduce() to put it into a single object.
   },
 
   modulesPerTeacher() {
@@ -773,11 +818,33 @@ const turingPrompts = {
     //     Will: [1, 2, 3, 4]
     //   }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = instructors.reduce((instructorMods, instructor) => {
+      instructorMods[instructor.name] = [];
+      instructor.teaches.forEach((skill) => {
+        cohorts.forEach((cohort) =>{
+          if (cohort.curriculum.includes(skill) && !instructorMods[instructor.name].includes(cohort.module)){
+            instructorMods[instructor.name].push(cohort.module)
+          }
+        })
+      })
+      instructorMods[instructor.name].sort();
+      return instructorMods;
+    }, {});
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Whew! Because we want a single object, we're going to need to use
+    // .reduce(). We're going to iterate through the instructors array and
+    // create a new key in our accumulator object for each instructor's name,
+    // initially setting its value to an empty array. Then, within each
+    // instructor object, we're going to use .forEach() to iterate through
+    // their list of skills and use ANOTHER .forEach() to match them up with
+    // the curriculum list in each cohort in the cohorts array. If we find a
+    // match, and if the instructor doesn't already have that mod in their
+    // array in the accumulator object, we'll push the mod in. Then, we return
+    // the accumulator. Oh, and then, just to spice things up, we need to
+    // ensure that all of the mod arrays for each instructor are sorted in
+    // numerical order.
   },
 
   curriculumPerTeacher() {
@@ -790,11 +857,28 @@ const turingPrompts = {
     //   recursion: [ 'Pam', 'Leta' ]
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cohorts.reduce((curriculumTopics, cohort) => {
+      cohort.curriculum.forEach((topic) => {
+        if (!curriculumTopics[topic]){
+          curriculumTopics[topic] = [];
+        }
+        instructors.forEach((instructor) => {
+          if (instructor.teaches.includes(topic) && !curriculumTopics[topic].includes(instructor.name)){
+            curriculumTopics[topic].push(instructor.name)
+          }
+        })
+      })
+      return curriculumTopics
+    },{})
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // As before, because we're looking for an object, we'll want to use
+    // .reduce(). This time, we will take a look at each topic in the
+    // curriculum arrays in each cohort object, and if it doesn't yet exist in
+    // our accumulator object as a property, we'll create it. Then, we'll look
+    // at each instructor's list of skills and add them to the appropriate array
+    // in the accumulator object, if they're not there already. 
   }
 };
 
