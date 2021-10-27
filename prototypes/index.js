@@ -878,7 +878,7 @@ const turingPrompts = {
     // curriculum arrays in each cohort object, and if it doesn't yet exist in
     // our accumulator object as a property, we'll create it. Then, we'll look
     // at each instructor's list of skills and add them to the appropriate array
-    // in the accumulator object, if they're not there already. 
+    // in the accumulator object, if they're not there already.
   }
 };
 
@@ -909,11 +909,27 @@ const bossPrompts = {
     //   { bossName: 'Scar', sidekickLoyalty: 16 }
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = sidekicks.reduce((bossLoyalty, sidekick) => {
+      let targetBoss = sidekick.boss;
+      if (bossLoyalty.some((boss) => boss.bossName === targetBoss)){
+        bossLoyalty[bossLoyalty.findIndex((boss) => boss.bossName === targetBoss)].sidekickLoyalty += sidekick.loyaltyToBoss;
+      } else {
+        bossLoyalty.push({ bossName: targetBoss, sidekickLoyalty: sidekick.loyaltyToBoss})
+      }
+      return bossLoyalty
+    }, [])
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // This one is a trick question! We don't actually need the bosses array
+    // to solve the problem as it's stated -- we can do it all just by
+    // referencing the sidekicks array. We set up a reduce that will look at
+    // the `boss` property of each sidekick, then see if an object already
+    // exists in the accumulator array that matches that boss's name. If so,
+    // it adds that sidekick's loyalty rating to the object; otherwise it
+    // creates a new object for the boss and assigns it an appropriate
+    // loyalty rating. And really, shouldn't the henchmen be doing all the
+    // work in an example like this, anyway?
   }
 };
 
