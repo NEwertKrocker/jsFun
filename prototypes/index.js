@@ -967,11 +967,17 @@ const astronomyPrompts = {
     //     color: 'red' }
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = stars.filter((star) => {
+     return constellations.orion.stars.includes(star.name) ||
+      constellations.ursaMajor.stars.includes(star.name) ||
+      constellations.ursaMinor.stars.includes(star.name)
+    })
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // This one's a bit kludgy, but it works. We'll use filter to check and see
+    // if any of the constellation objects contained within the larger
+    // `constellations` object contain the name of the star we're looking for.
   },
 
   starsByColor() {
@@ -985,11 +991,22 @@ const astronomyPrompts = {
     //   red: [{obj}]
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = stars.reduce((starColors, star) => {
+      if (!starColors[star.color]){
+        starColors[star.color] = [];
+        starColors[star.color].push(star)
+      } else {
+        starColors[star.color].push(star)
+      }
+      return starColors
+    }, {})
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // This one is a pretty straightforward use of .reduce() to build an object.
+    // We just need a conditional statement to make sure that we set up the
+    // given star.color property on the accumulator object before we push the
+    // star into the array.
   },
 
   constellationsStarsExistIn() {
@@ -1006,12 +1023,24 @@ const astronomyPrompts = {
     //    "Orion",
     //    "The Little Dipper" ]
 
+    const orderedStars = stars.sort((a, b) => {
+          return a.visualMagnitude - b.visualMagnitude
+        })
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
-    return result;
+        const result = stars.reduce((brightStars, star) => {
+          if (!brightStars.includes[star.constellation] && star.constellation){
+            brightStars.push(star.constellation)
+          }
+          return brightStars
+        }, [])
+        return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // This one requires us to first sort the stars array by visual
+    // magnitude (the given array is *slightly* out of order), and then pull out
+    // the constellation names, making sure there are no duplicates. You can
+    // probably do this with .map, but .reduce is so versatile and easy to
+    // use that I find myself gravitating toward it. 
   }
 };
 
