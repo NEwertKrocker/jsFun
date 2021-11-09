@@ -1040,7 +1040,7 @@ const astronomyPrompts = {
     // magnitude (the given array is *slightly* out of order), and then pull out
     // the constellation names, making sure there are no duplicates. You can
     // probably do this with .map, but .reduce is so versatile and easy to
-    // use that I find myself gravitating toward it. 
+    // use that I find myself gravitating toward it.
   }
 };
 
@@ -1067,11 +1067,18 @@ const ultimaPrompts = {
     // Return the sum of the amount of damage for all the weapons that our characters can use
     // Answer => 113
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = characters.reduce((totalDamage, character) => {
+      character.weapons.forEach((weapon) => {
+        totalDamage += weapons[weapon].damage
+      })
+      return totalDamage;
+    }, 0)
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // This one is a pretty straightforward reduce() method, but the wrinkle
+    // in this case is that we have to stick a forEach() in there in order to
+    // iterate through the weapons each character is capable of equipping.
   },
 
   charactersByTotal() {
@@ -1079,11 +1086,26 @@ const ultimaPrompts = {
     // Return the sum damage and total range for each character as an object.
     // ex: [ { Avatar: { damage: 27, range: 24 }, { Iolo: {...}, ...}
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = characters.map((character) => {
+      let charInfo = {};
+      charInfo[character.name]
+      const battleInfo = character.weapons.reduce((totalDmg, weapon) => {
+        totalDmg.damage += weapons[weapon].damage;
+        totalDmg.range += weapons[weapon].range;
+        return totalDmg
+      }, {damage: 0, range: 0})
+      charInfo[character.name] = battleInfo;
+      return charInfo
+    })
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // This one stumped me for a minute! My breakthrough came when I realized
+    // that the objects containing the damage and range values sort of
+    // already existed on the objects in the weapons array, and then I could
+    // use reduce() to accumulate their totals -- once I had those objects, it
+    // it was pretty easy to use map to create objects with the character
+    // names as keys to assign them to.
   },
 };
 
